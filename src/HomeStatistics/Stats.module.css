@@ -1,0 +1,26 @@
+#header{
+    width: 95%;
+    height:20%;
+    margin: 0 auto;
+	
+  }
+
+#homestatus{
+    display: flex;
+}
+   
+#ControllPanel{
+    width: 95%;
+    height: 70%;
+    margin: 0 auto;
+
+}
+
+
+
+.statusValue{
+    display: grid;
+    padding-left: 10%;
+    width: 80%;
+
+}
