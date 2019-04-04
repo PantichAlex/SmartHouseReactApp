@@ -5,23 +5,24 @@ function getDevices(){
 	
 	
 	
-}
-function fetchDevices(){
-	
-	return
-}
+} 
+
 const ControllPanel=function(){
 	var arr=new Array(25);
+	var devices;
 	for(var i=0; i<arr.length; ++i){
 		arr[i]=i+1;
 		
 	}	
+	function fetchDevices(){
 	
+		fetch("http://127.0.0.1:8000/api/devices").then(response => devices=response.json())
+
+	}
 	
 	
 
-	var devices=getDevices();
-
+	fetchDevices();
 	const test=(<p>{JSON.stringify(devices)}</p>);
 	
 	const Btns=arr.map(x => (
