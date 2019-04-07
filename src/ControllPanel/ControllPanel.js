@@ -1,47 +1,64 @@
 import React from 'react';
 import Style from './ControllPanel.module.css'
 
-function getDevices(){
+class ControllPanel extends React.Component{
 	
 	
-	
-} 
-
-const ControllPanel=function(){
-	var arr=new Array(25);
-	var devices;
-	for(var i=0; i<arr.length; ++i){
-		arr[i]=i+1;
+	constructor(props){
 		
-	}	
-	function fetchDevices(){
-	
-		fetch("http://127.0.0.1:8000/api/devices").then(response => devices=response.json())
+		super(props);
+		this.state={
+			error:null,
+			isLoaded: false,
+			devices: []
 
+			};
+		this.deviceRender=this.deviceRender.bind(this);		
+			
 	}
 	
-	
-
-	fetchDevices();
-	const test=(<p>{JSON.stringify(devices)}</p>);
-	
-	const Btns=arr.map(x => (
-	<div>
-	
-	<img src="https://pngicon.ru/file/uploads/microshema-128x128.png" alt="микросхема"/>
-		<p>Устройство {x}</p>
-	</div> ));
-	
-	
-	return (<div id={Style.ControllPanel}>
-				{test}
-				<h1>Панель управления</h1>
-				<div className={Style.container}>
-				
-					{Btns}
-				</div>
+	componentDidMount(){
+		fetch("http://127.0.0.1:8000/api/devices")
+		.then(response=>response.json())
+		.then((data)=>{
 			
-			</div>);
-}
+			this.setState({
+					isLoaded: true,
+					devices: data
+			});
+			}, (err)=>{
+				this.setState({
+					isLoaded: true,
+					error: err		
+				});
+	
+			});
+	}
+	deviceRender(){
+			const {error, isLoaded, devices}=this.state;
+			
+			if(!isLoaded){
+				
+				return(<div> Идет загрузка.....</div>);
+			}
+			const Buttons=devices.map(item =>(
+				<div className={Style.controllBtn}>
+				<img src="https://pngicon.ru/file/uploads/microshema-128x128.png" alt="микросхема"/>
+				<p>{item.name}</p>
+			
+			</div>)
+			
+			);
+			return (<div className={Style.container}>{Buttons}</div>);
+			
 
+	}
+	render(){
+			
+		return (<div id={Style.ControllPanel}>
+					<h1>Панель управления</h1>
+					{this.deviceRender()}
+				</div>);
+	}
+}
 export default ControllPanel;
