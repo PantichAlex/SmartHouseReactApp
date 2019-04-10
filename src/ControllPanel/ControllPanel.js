@@ -13,8 +13,19 @@ class ControllPanel extends React.Component{
 			devices: []
 
 			};
-		this.deviceRender=this.deviceRender.bind(this);		
+		this.devicesRender=this.devicesRender.bind(this);		
+		this.deviceClick=this.deviceClick.bind(this);
+	}
+	
+	deviceClick(id){	
+		let stat=this;
+		return function(e){
+				stat.setState({
+					
+					isLoaded: false
+				});
 			
+		}
 	}
 	
 	componentDidMount(){
@@ -34,7 +45,7 @@ class ControllPanel extends React.Component{
 	
 			});
 	}
-	deviceRender(){
+	devicesRender(){
 			const {error, isLoaded, devices}=this.state;
 			
 			if(!isLoaded){
@@ -42,8 +53,8 @@ class ControllPanel extends React.Component{
 				return(<div> Идет загрузка.....</div>);
 			}
 			const Buttons=devices.map(item =>(
-				<div className={Style.controllBtn}>
-				<img src="https://pngicon.ru/file/uploads/microshema-128x128.png" alt="микросхема"/>
+				<div className={Style.controllBtn} onClick={this.deviceClick(item.id)}>
+				<img src={item.iconPath} alt="микросхема"/>
 				<p>{item.name}</p>
 			
 			</div>)
@@ -57,7 +68,8 @@ class ControllPanel extends React.Component{
 			
 		return (<div id={Style.ControllPanel}>
 					<h1>Панель управления</h1>
-					{this.deviceRender()}
+					
+					{this.devicesRender()}
 				</div>);
 	}
 }
